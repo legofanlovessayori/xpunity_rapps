@@ -14,7 +14,7 @@ IDR_MAINMENU MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Settings", ID_SETTINGS
+        MENUITEM "&Options", ID_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "E&xit", ID_EXIT
     END
@@ -25,15 +25,14 @@ BEGIN
         MENUITEM "&Modify", ID_MODIFY
         MENUITEM SEPARATOR
         MENUITEM "&Remove from Registry", ID_REGREMOVE
+        MENUITEM "Update Da&tabase\tCtrl+F5", ID_RESETDB
         MENUITEM SEPARATOR
         MENUITEM "&Refresh\tF5", ID_REFRESH
-        MENUITEM SEPARATOR
-        MENUITEM "Update Da&tabase\tCtrl+F5", ID_RESETDB
     END
     POPUP "Help"
     BEGIN
         MENUITEM "Help\tF1", ID_HELP, GRAYED
-        MENUITEM "&About", ID_ABOUT
+        MENUITEM "&About Application Manager", ID_ABOUT
     END
 END
 
@@ -41,7 +40,7 @@ IDR_LINKMENU MENU
 BEGIN
     POPUP "popup"
     BEGIN
-        MENUITEM "&Open link in a browser", ID_OPEN_LINK
+        MENUITEM "&Open link in browser", ID_OPEN_LINK
         MENUITEM "&Copy link to clipboard", ID_COPY_LINK
     END
 END
@@ -55,16 +54,15 @@ BEGIN
         MENUITEM "&Modify", ID_MODIFY
         MENUITEM SEPARATOR
         MENUITEM "&Remove from Registry", ID_REGREMOVE
+        MENUITEM "Update Da&tabase\tCtrl+F5", ID_RESETDB
         MENUITEM SEPARATOR
         MENUITEM "&Refresh\tF5", ID_REFRESH
-        MENUITEM SEPARATOR
-        MENUITEM "Update Da&tabase\tCtrl+F5", ID_RESETDB
     END
 END
 
 IDD_SETTINGS_DIALOG DIALOGEX 0, 0, 250, 265
 STYLE DS_SHELLFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Settings"
+CAPTION "Options"
 FONT 8, "MS Shell Dlg"
 BEGIN
     GROUPBOX "General", -1, 4, 2, 240, 61
@@ -76,9 +74,9 @@ BEGIN
     EDITTEXT IDC_DOWNLOAD_DIR_EDIT, 15, 86, 166, 12, WS_CHILD | WS_VISIBLE | WS_GROUP | ES_AUTOHSCROLL
     PUSHBUTTON "&Choose", IDC_CHOOSE, 187, 85, 50, 14
     AUTOCHECKBOX "&Delete program installer after installation", IDC_DEL_AFTER_INSTALL, 16, 100, 218, 12
-    GROUPBOX "Software source", -1, 4, 118, 240, 46
-    CONTROL "Use default", IDC_SOURCE_DEFAULT, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 15, 132, 74, 10
-    CONTROL "Specified source", IDC_USE_SOURCE, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 15, 147, 74, 10
+    GROUPBOX "Software sources", -1, 4, 118, 240, 46
+    CONTROL "Use ReactOS Repo", IDC_SOURCE_DEFAULT, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 15, 132, 74, 10
+    CONTROL "Custom source", IDC_USE_SOURCE, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 15, 147, 74, 10
     EDITTEXT IDC_SOURCE_URL, 97, 147, 140, 12, ES_AUTOHSCROLL | WS_DISABLED
     GROUPBOX "Proxy", -1, 4, 166, 240, 76
     CONTROL "System proxy settings", IDC_PROXY_DEFAULT, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 15, 180, 210, 10
@@ -87,7 +85,7 @@ BEGIN
     EDITTEXT IDC_PROXY_SERVER, 90, 210, 147, 12, ES_AUTOHSCROLL | WS_DISABLED
     LTEXT "No proxy for", -1, 26, 226, 64, 10
     EDITTEXT IDC_NO_PROXY_FOR, 90, 225, 147, 12, ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON "Default", IDC_DEFAULT_SETTINGS, 8, 245, 60, 14
+    PUSHBUTTON "Use Defaults", IDC_DEFAULT_SETTINGS, 8, 245, 60, 14
     DEFPUSHBUTTON "OK", IDOK, 116, 245, 60, 14
     PUSHBUTTON "Cancel", IDCANCEL, 181, 245, 60, 14
 END
@@ -106,7 +104,7 @@ END
 
 IDD_DOWNLOAD_DIALOG DIALOGEX 0, 0, 220, 220
 STYLE DS_SHELLFONT | DS_CENTER | WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE
-CAPTION "Downloading %ls…"
+CAPTION "Downloading and installing %ls…"
 FONT 8, "MS Shell Dlg"
 BEGIN
     CONTROL "Progress1", IDC_DOWNLOAD_PROGRESS, "msctls_progress32", WS_BORDER | PBS_SMOOTH, 10, 10, 200, 12
@@ -120,7 +118,7 @@ BEGIN
     IDS_TOOLTIP_UNINSTALL "Uninstall"
     IDS_TOOLTIP_MODIFY "Modify"
     IDS_TOOLTIP_SELECT_ALL "Select/Deselect All"
-    IDS_TOOLTIP_SETTINGS "Settings"
+    IDS_TOOLTIP_SETTINGS "Options"
     IDS_TOOLTIP_REFRESH "Refresh"
     IDS_TOOLTIP_UPDATE_DB "Update Database"
     IDS_TOOLTIP_EXIT "Exit"
@@ -172,16 +170,16 @@ BEGIN
     IDS_CAT_AUDIO "Audio"
     IDS_CAT_DEVEL "Development"
     IDS_CAT_DRIVERS "Drivers"
-    IDS_CAT_EDU "Edutainment"
-    IDS_CAT_ENGINEER "Engineering"
-    IDS_CAT_FINANCE "Finance"
+    IDS_CAT_EDU "Placeholder1"
+    IDS_CAT_ENGINEER "Placeholder2"
+    IDS_CAT_FINANCE "Official Apps"
     IDS_CAT_GAMES "Games & Fun"
     IDS_CAT_GRAPHICS "Graphics"
     IDS_CAT_INTERNET "Internet & Network"
     IDS_CAT_LIBS "Libraries"
     IDS_CAT_OFFICE "Office"
     IDS_CAT_OTHER "Other"
-    IDS_CAT_SCIENCE "Science"
+    IDS_CAT_SCIENCE "Patches"
     IDS_CAT_TOOLS "Tools"
     IDS_CAT_VIDEO "Video"
     IDS_CAT_THEMES "Themes"
@@ -190,12 +188,14 @@ END
 STRINGTABLE
 BEGIN
     IDS_APPTITLE "Windows Applications Manager"
-    IDS_SEARCH_TEXT "Search…"
+    IDS_APP_AUTHORS "by Dmitry Chapyshev and Legofan"
+    IDS_SEARCH_TEXT "Search for Applications…"
     IDS_APPS_COUNT "Applications count: %d; Selected: %d"
     IDS_WELCOME_TITLE "Welcome to Windows Applications Manager!\n\n"
-    IDS_WELCOME_TEXT "Choose a category on the left, then choose an application to install or uninstall."
+    IDS_WELCOME_TEXT "Choose a category on the left, then choose an application to install or uninstall.\nFor help press F1.\nVisit Microsoft Website here: "
+    IDS_WELCOME_URL "https://microsoft.com"
     IDS_INSTALLED "Installed"
-    IDS_AVAILABLEFORINST "Available for installation"
+    IDS_AVAILABLEFORINST "Available"
     IDS_UPDATES "Updates"
     IDS_APPLICATIONS "Applications"
     IDS_CHOOSE_FOLDER_TEXT "Choose a folder which will store Downloads:"
@@ -253,9 +253,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_DL_DIALOG_DB_DISP "Applications Database"
-    IDS_DL_DIALOG_DB_DOWNLOAD_DISP "Updating Database…"
-    IDS_DL_DIALOG_DB_UNOFFICIAL_DOWNLOAD_DISP "Updating Database… (Unofficial source)"
+    IDS_DL_DIALOG_DB_DISP "Application Database"
+    IDS_DL_DIALOG_DB_DOWNLOAD_DISP "Updating…"
+    IDS_DL_DIALOG_DB_UNOFFICIAL_DOWNLOAD_DISP "Updating… (Unofficial source)"
 END
 
 STRINGTABLE
