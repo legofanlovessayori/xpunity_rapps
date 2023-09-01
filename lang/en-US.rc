@@ -187,11 +187,11 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_APPTITLE "Windows Applications Manager"
+    IDS_APPTITLE "Windows Application Manager"
     IDS_APP_AUTHORS "by Dmitry Chapyshev and Legofan"
     IDS_SEARCH_TEXT "Search for Applications…"
     IDS_APPS_COUNT "Applications count: %d; Selected: %d"
-    IDS_WELCOME_TITLE "Welcome to Windows Applications Manager!\n\n"
+    IDS_WELCOME_TITLE "Welcome to Windows Application Manager!\n\n"
     IDS_WELCOME_TEXT "Choose a category on the left, then choose an application to install or uninstall.\nFor help press F1.\nVisit Microsoft Website here: "
     IDS_WELCOME_URL "https://microsoft.com"
     IDS_INSTALLED "Installed"
